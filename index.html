@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    * Cricinfo Live Result Grabber
+    * Author: @dropNup (dropnupit@gmail.com)
+    * Author-URI: https://www.facebook.com/dropNup/
+    * Contributor(s): Rakibul Yeasin
+-->
+<head>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/CBdJNpP/cricket.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- SEO Data -->
+    <meta property="og:title" content="Cricket Live Match Result" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="description" content="Author: Rakibul Yeasin" />
+    <meta property="og:description" content="Author: Rakibul Yeasin" />
+    <meta name="og:image" content="https://raw.githubusercontent.com/rytotul/rytotul.github.io/master/img/voldemort.png">
+
+    <!-- Title -->
+    <title>Cricket Live Match Result | dropNup</title>
+
+    <!-- Don't remove the Script Below -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous">
+    </script>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+
+    <!-- Site Styles -->
+    <style>
+        /* @import url('https://fonts.googleapis.com/css?family=Baloo+Thambi'); */
+
+        /* Clears All the Default Styling by Browser */
+        *, html, body {
+            padding: 0px;
+            margin: 0px;
+            font-family: 'Josefin Sans', sans-serif;
+        }
+
+        h1 {
+            color: rgb(255, 255, 255);
+            background-color: rgb(59, 119, 209);
+            text-align: center;
+            padding: 20px;
+            margin: 0px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        div {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        footer a {
+            color: white;
+        }
+
+        #data {
+            padding: 20px 0px 0px 0px;
+        }
+
+        #refresh {
+            padding: 15px 0px 0px 0px;
+            text-align: center;
+            font-weight: bold;
+            /* border-bottom: 1px solid rgb(37, 112, 146); */
+        }
+
+        .row {
+            padding: 10px 25px;
+            border-bottom: 1px solid rgb(37, 112, 146);
+            text-align: left;
+        }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: rgb(59, 119, 209);
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    
+    </style>
+</head>
+
+<!-- Start of Body -->
+<body>
+    <h1>Cricket Live Match Result</h1>
+    <div id="refresh">↻ - Refresh</div>
+    <div id="data"></div>
+    <!-- !mportant Part. Don't Edit or Remove it -->
+    <script>
+    /*
+     * Cricinfo Live Result Grabber
+     * Author: @dropNup (dropnupit@gmail.com)
+     * Author-URI: https://www.facebook.com/dropNup/
+     * Contributor(s): Rakibul Yeasin
+    */
+    $(function() {
+        $.ajax({
+            url: "https://cors-anywhere.herokuapp.com/http://static.cricinfo.com/rss/livescores.xml",
+            type: "GET",
+            dataType: "xml",
+            success: onSuccess,
+            error: onError
+        });
+
+        function onSuccess(xml) {
+            //console.log(xml);
+            //$("#data").text(xml);
+            var i = 0;
+            $(xml).find("description").each(function() {
+                if (i == 0) {
+                    i++;
+                } else {
+                    //console.log($(this).text());
+                    $("#data").append(`<div class="row">${$(this).text()} </div>`);
+                    i++;
+                }
+            });
+            //console.log(`Fetched Total ${i} Results!`);
+            $("#data").append(`<br/><br/><center>Fetched Total ${i} Results!</center>`);
+        }
+
+        function onError(xml) {
+            console.log("Error Occured....");
+        }
+
+        $( "#refresh" ).click( function () {
+            location.reload();
+        });
+    });
+    </script>
+    <!-- End of Script -->
+
+    <!-- Footer -->
+    <footer class="footer">Made with ♥ by <a href="https://facebook.com/rytotul">Rakibul Yeasin</a></footer>
+</body>
+</html>
